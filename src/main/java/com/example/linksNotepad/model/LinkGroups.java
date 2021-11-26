@@ -19,7 +19,7 @@ public class LinkGroups {
     private String nameGroup;
     @Column
     private String descriptionLinkGroups;
-//    @OneToMany(mappedBy = "linkGroups")
-//    private Set<Link> links;
+    @OneToMany(mappedBy = "linkGroups")
+    private Set<Link> links;
 
 }

@@ -20,8 +20,10 @@ public class Link {
     private String url;
     @Column
     private String description;
-//    @ManyToOne
-//    @PrimaryKeyJoinColumn
-//    @JoinColumn(name = "linksGroup_id")
-//    private LinkGroups linkGroups;
+    @Column
+    private String yourNotesAboutLink;
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "links_group_id")
+    private LinkGroups linkGroups;
 }
