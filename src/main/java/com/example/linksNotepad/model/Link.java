@@ -23,7 +23,9 @@ public class Link {
     @Column
     private String yourNotesAboutLink;
     @ManyToOne
-    @PrimaryKeyJoinColumn
-    @JoinColumn(name = "links_group_id")
+    @PrimaryKeyJoinColumn(name = "links_group_id")
     private LinkGroups linkGroups;
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private UserInfo userInfo;
 }

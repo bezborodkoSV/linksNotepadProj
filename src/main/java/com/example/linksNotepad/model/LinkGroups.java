@@ -17,9 +17,8 @@ public class LinkGroups {
     private long id;
     @Column
     private String nameGroup;
-    @Column
-    private String descriptionLinkGroups;
     @OneToMany(mappedBy = "linkGroups")
     private Set<Link> links;
-
+    @ManyToOne
+    private UserInfo userInfo;
 }
