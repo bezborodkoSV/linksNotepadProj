@@ -50,7 +50,7 @@ public BCryptPasswordEncoder bCryptPasswordEncoder(){return new BCryptPasswordEn
                 .and()
                 .logout()
                 .permitAll()
-                .logoutSuccessUrl("/home");
+                .logoutSuccessUrl("/welcome");
     }
 
     @Autowired

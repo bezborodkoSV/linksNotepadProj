@@ -24,7 +24,7 @@
     <<button type="submit" value="save">Add group</button>
 </form:form>
 
-<form:form method="post" modelAttribute="saveLink" action="/add">
+<form:form method="post" modelAttribute="saveLink" action="/addLink">
     <h2>Add Link</h2>
     <div>
         <form:input path="name" placeholder="Name link"></form:input>
@@ -38,6 +38,7 @@
     <div>
         <form:input path="yourNotesAboutLink" placeholder="Your notes about Link"></form:input>
     </div>
+    <input name="nameGroup" type="hidden" value="${nameGroup}">
     <button type="submit" value="save">Add link</button>
 </form:form>
 </form>
@@ -45,8 +46,8 @@
 <h2>Groups</h2>
 <div>
 
-    <c:forEach items="${linkGroups}" var="menuInfo">
-        <li><a href="/private/home/${menuInfo.nameGroup}">${menuInfo.nameGroup}</a></li>
+    <c:forEach items="${linkGroups}" var="group">
+        <li><a href="/private/home/${group.nameGroup}">${group.nameGroup}</a></li>
     </c:forEach>
 
     <%--    <form:form method="get" modelAttribute="nameGroup" action="/prvate/home/${nameGroup}" va>--%>
@@ -85,6 +86,9 @@
                 <td>${link.description}</td>
                 <td>${link.yourNotesAboutLink}</td>
                 <td>${link.linkGroups.nameGroup}</td>
+                <form action="/private/changeLinkParameter/${link.linkGroups.nameGroup}/${link.name}">
+                <td><button>Change</button> </td>
+                </form>
             </tr>
         </c:forEach>
     </table>

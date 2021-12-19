@@ -1,11 +1,13 @@
 package com.example.linksNotepad.service;
 
 import com.example.linksNotepad.model.Link;
+import com.example.linksNotepad.model.LinkGroups;
 import com.example.linksNotepad.repository.LinkGroupsRepository;
 import com.example.linksNotepad.repository.LinkRepository;
 import com.example.linksNotepad.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,11 +23,12 @@ public class LinkServiceImpl {
         this.userRepository = userRepository;
     }
 
-    public boolean saveLink(Link link,String linkGroup,String username) {
-        if(linkGroup==null){
+    public boolean saveLink(Link link,String nameGroup,String username) {
+        if(nameGroup==null){
             link.setLinkGroups(linkGroupsRepository.findLinkGroupsByUserInfo_UsernameAndNameGroup(username,"Default"));
+        }else {
+            link.setLinkGroups(linkGroupsRepository.findLinkGroupsByUserInfo_UsernameAndNameGroup(username, nameGroup));
         }
-        link.setLinkGroups(linkGroupsRepository.findLinkGroupsByNameGroup(linkGroup));
         link.setUserInfo(userRepository.findByUsername(username));
         linkRepository.saveAndFlush(link);
         return true;
@@ -37,5 +40,16 @@ public class LinkServiceImpl {
 
     public List<Link> allLinks(String username){
         return linkRepository.findLinksByUserInfo_Username(username);
+    }
+
+    @Transactional
+    public boolean updateLink(Link link){
+        System.out.println(link.getId()+"   "+link.getName()+"   name group "+link.getLinkGroups().getNameGroup());
+        linkRepository.save(link);
+        return true;
+    }
+
+    public Link link(String nameLink,String username,String nameGroup){
+        return linkRepository.findLinksByNameAndUserInfo_UsernameAndLinkGroups_NameGroup(nameLink,username,nameGroup);
     }
 }

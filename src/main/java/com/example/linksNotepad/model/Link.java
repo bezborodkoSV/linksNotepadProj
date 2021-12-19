@@ -28,4 +28,11 @@ public class Link {
     @ManyToOne
     @PrimaryKeyJoinColumn
     private UserInfo userInfo;
+
+    public Link() {
+    }
+
+    public Link(LinkGroups linkGroups) {
+        this.linkGroups = linkGroups;
+    }
 }

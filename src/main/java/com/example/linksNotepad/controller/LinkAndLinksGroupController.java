@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @Controller
-public class LinkController {
+public class LinkAndLinksGroupController {
     private final LinkGroupsService linkGroupsService;
     private final LinkServiceImpl linkService;
 
-    public LinkController(LinkServiceImpl linkService, LinkGroupsService linkGroupsService) {
+    public LinkAndLinksGroupController(LinkServiceImpl linkService, LinkGroupsService linkGroupsService) {
         this.linkService = linkService;
         this.linkGroupsService = linkGroupsService;
     }
@@ -55,6 +55,7 @@ public class LinkController {
         return "home";
     }
 
+
 //    @PostMapping(value = "/private/home/{nameGroup}")
 //    public String linkHomeByGroup(@RequestParam(name = "nameGroup") String nameGroup){
 //        System.out.println(nameGroup);
@@ -67,15 +68,34 @@ public class LinkController {
 //        return "addLink";
 //    }
 
-    @PostMapping("/add")
-    public String saveLink(@ModelAttribute("saveLink") Link link, String linkGroup, BindingResult bindingResult, Principal principal) {
-        linkService.saveLink(link, linkGroup, principal.getName());
-        return "redirect:/private/home";
+    @PostMapping("/addLink")
+    public String saveLink(@ModelAttribute("saveLink") Link link,@RequestParam("nameGroup")String nameGroup, Principal principal) {
+        linkService.saveLink(link, nameGroup ,principal.getName());
+        if (nameGroup==null){
+            return "redirect:/private/home";
+        }
+        return "redirect:/private/home/"+nameGroup;
     }
 
     @PostMapping("/addLinkGroup")
     public String saveLinkGroups(@ModelAttribute("saveLinkGroups")LinkGroups linkGroups,Principal principal){
         linkGroupsService.saveLinkGroups(linkGroups,principal.getName());
+        String redirectUrl = "redirect:/private/home/"+linkGroups.getNameGroup();
+        return redirectUrl;
+    }
+
+    @PostMapping("/changeLinkParameter")
+    public String changeLinkParameter(@ModelAttribute("linkByName") Link linkByName){
+        System.out.println(linkByName.getLinkGroups().getNameGroup()+" group?????????????????????????????????????????????????????????????? id group"+ linkByName.getLinkGroups().getId());
+        linkService.updateLink(linkByName);
         return "redirect:/private/home";
+    }
+
+    @GetMapping("/private/changeLinkParameter/{nameGroup}/{nameLink}")
+    public String viewChangeLinkParameter(Model model,Principal principal,@PathVariable("nameGroup")String nameGroup,@PathVariable("nameLink")String nameLink){
+        model.addAttribute("linkByName", linkService.link(nameLink, principal.getName(),nameGroup));
+//        select
+        model.addAttribute("linkGroupList",linkGroupsService.listGroup(principal.getName()));
+        return "changeLinkParameter";
     }
 }

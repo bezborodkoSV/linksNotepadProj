@@ -12,4 +12,6 @@ import java.util.List;
 public interface LinkRepository extends JpaRepository<Link,Long> {
     List<Link> findLinksByUserInfo_Username(String usernameId);
     List<Link> findLinksByUserInfo_UsernameAndLinkGroups_NameGroup(String username,String nameGroup);
+    Link findLinksByNameAndUserInfo_UsernameAndLinkGroups_NameGroup(String id,String username,String nameGroup);
+    
 }

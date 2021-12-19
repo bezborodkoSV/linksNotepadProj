@@ -5,7 +5,9 @@ import com.example.linksNotepad.repository.LinkGroupsRepository;
 import com.example.linksNotepad.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,7 +22,7 @@ public class LinkGroupsService {
 
 
     public boolean saveLinkGroups(LinkGroups linkGroups,String username){
-        LinkGroups linkGroupsDb = linkGroupsRepository.findLinkGroupsByNameGroup(linkGroups.getNameGroup());
+        LinkGroups linkGroupsDb = linkGroupsRepository.findLinkGroupsByUserInfo_UsernameAndNameGroup(username,linkGroups.getNameGroup());
         if (linkGroupsDb!=null){
             return false;
         }
@@ -29,8 +31,12 @@ public class LinkGroupsService {
         return true;
     }
 
+    public LinkGroups findGroupByNameGroup(String nameGroup){return linkGroupsRepository.findLinkGroupsByNameGroup(nameGroup);}
+
+
 
     public List<LinkGroups> listGroup(String username){
         return linkGroupsRepository.findLinkGroupsByUserInfo_Username(username);
     }
+
 }
