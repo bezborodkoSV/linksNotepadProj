@@ -24,7 +24,10 @@ public class LinkServiceImpl {
     }
 
     public boolean saveLink(Link link,String nameGroup,String username) {
-        if(nameGroup==null){
+        if (linkRepository.findLinksByNameAndLinkGroups_NameGroupAndUserInfo_Username(link.getName(),nameGroup,username)!=null){
+            return false;
+        }
+        if(nameGroup==null||nameGroup.length()==0){
             link.setLinkGroups(linkGroupsRepository.findLinkGroupsByUserInfo_UsernameAndNameGroup(username,"Default"));
         }else {
             link.setLinkGroups(linkGroupsRepository.findLinkGroupsByUserInfo_UsernameAndNameGroup(username, nameGroup));
@@ -44,8 +47,20 @@ public class LinkServiceImpl {
 
     @Transactional
     public boolean updateLink(Link link){
+        if (linkRepository.findLinksByNameAndLinkGroups_NameGroupAndUserInfo_Username(link.getName(),link.getLinkGroups().getNameGroup(),link.getUserInfo().getUsername())!=null){
+            return false;
+        }
         System.out.println(link.getId()+"   "+link.getName()+"   name group "+link.getLinkGroups().getNameGroup());
         linkRepository.save(link);
+        return true;
+    }
+
+    @Transactional
+    public boolean deleteLink(String nameLink,String username){
+        if (linkRepository.findLinksByNameAndUserInfo_Username(nameLink,username)==null){
+            return false;
+        }
+        linkRepository.delete(linkRepository.findLinksByNameAndUserInfo_Username(nameLink, username));
         return true;
     }
 

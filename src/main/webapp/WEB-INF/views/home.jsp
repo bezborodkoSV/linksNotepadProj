@@ -21,13 +21,24 @@
 <form:form method="post" modelAttribute="saveLinkGroup" action="/addLinkGroup">
     <h2>Create link groups</h2>
     <form:input path="nameGroup" placeholder="Name link groups"></form:input>
-    <<button type="submit" value="save">Add group</button>
+    <form:errors path="nameGroup"></form:errors>
+    ${groupError}
+    <div>
+        <button type="submit" value="save">Add group</button>
+    </div>
 </form:form>
+
+
+<form action="/welcome">
+    <button>Переход по ссылке</button>
+</form>
 
 <form:form method="post" modelAttribute="saveLink" action="/addLink">
     <h2>Add Link</h2>
     <div>
         <form:input path="name" placeholder="Name link"></form:input>
+        <form:errors path="name"></form:errors>
+            ${errorNameLink}
     </div>
     <div>
         <form:input path="url" placeholder="URL"></form:input>
@@ -51,20 +62,20 @@
     </c:forEach>
 
     <%--    <form:form method="get" modelAttribute="nameGroup" action="/prvate/home/${nameGroup}" va>--%>
-<%--    <select>--%>
-<%--        <c:forEach items="${linkGroups}" var="group">--%>
-<%--&lt;%&ndash;            <form method="post" action="/${group.nameGroup}" modelAtribut="">&ndash;%&gt;--%>
-<%--&lt;%&ndash;            <form:select path="nameGroup" items="${group.nameGroup}"></form:select>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                <option value="${group.nameGroup}">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                        ${group.nameGroup}&ndash;%&gt;--%>
-<%--&lt;%&ndash;                </option>&ndash;%&gt;--%>
-<%--&lt;%&ndash;            </form>&ndash;%&gt;--%>
-<%--            <form:form method="post" action="/private/home/${group.nameGroup}">--%>
-<%--                <input type="hidden" name="nameGroup" value="${group.nameGroup}">--%>
-<%--                <button type="submit">${group.nameGroup}</button>--%>
-<%--            </form:form>--%>
-<%--        </c:forEach>--%>
-<%--    </select>--%>
+    <%--    <select>--%>
+    <%--        <c:forEach items="${linkGroups}" var="group">--%>
+    <%--&lt;%&ndash;            <form method="post" action="/${group.nameGroup}" modelAtribut="">&ndash;%&gt;--%>
+    <%--&lt;%&ndash;            <form:select path="nameGroup" items="${group.nameGroup}"></form:select>&ndash;%&gt;--%>
+    <%--&lt;%&ndash;                <option value="${group.nameGroup}">&ndash;%&gt;--%>
+    <%--&lt;%&ndash;                        ${group.nameGroup}&ndash;%&gt;--%>
+    <%--&lt;%&ndash;                </option>&ndash;%&gt;--%>
+    <%--&lt;%&ndash;            </form>&ndash;%&gt;--%>
+    <%--            <form:form method="post" action="/private/home/${group.nameGroup}">--%>
+    <%--                <input type="hidden" name="nameGroup" value="${group.nameGroup}">--%>
+    <%--                <button type="submit">${group.nameGroup}</button>--%>
+    <%--            </form:form>--%>
+    <%--        </c:forEach>--%>
+    <%--    </select>--%>
     <%--    </form:form>--%>
 </div>
 <h1>List links</h1>
@@ -87,7 +98,13 @@
                 <td>${link.yourNotesAboutLink}</td>
                 <td>${link.linkGroups.nameGroup}</td>
                 <form action="/private/changeLinkParameter/${link.linkGroups.nameGroup}/${link.name}">
-                <td><button>Change</button> </td>
+                    <td>
+                        <button>Change</button>
+                    </td>
+                </form>
+                <form action="/deleteLink" method="post">
+                    <input type="hidden" name="nameLink" value="${link.name}">
+                    <td><button type="submit">Delete</button></td>
                 </form>
             </tr>
         </c:forEach>

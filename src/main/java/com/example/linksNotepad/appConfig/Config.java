@@ -19,5 +19,6 @@ public class Config implements WebMvcConfigurer {
         registry.addViewController("/registration").setViewName("registration");
         registry.addViewController("/welcome").setViewName("welcome");
 
+
     }
 }

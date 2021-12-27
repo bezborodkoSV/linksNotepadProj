@@ -5,9 +5,11 @@ import com.example.linksNotepad.service.UserDetailsServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 public class LoginAndRegistrationController {
@@ -35,7 +37,7 @@ public class LoginAndRegistrationController {
     }
 
     @PostMapping("/registration")
-    public String save(UserInfo userInfo, Model model) {
+    public String save(@ModelAttribute("userForm") UserInfo userInfo, Model model) {
         if (!userInfo.getPassword().equals(userInfo.getPasswordConfirm())) {
             model.addAttribute("passwordError", "Пароли не совпадают");
             return "registration";

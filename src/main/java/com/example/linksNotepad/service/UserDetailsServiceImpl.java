@@ -35,6 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserInfo userInfo = userRepository.findByUsername(username);
         if (userInfo == null) {
@@ -43,11 +44,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return userInfo;
     }
 
+    @Transactional
     public boolean userSave(UserInfo userInfo) {
         UserInfo userInfoDb = userRepository.findByUsername(userInfo.getUsername());
         if (userInfoDb != null) {
             return false;
         }
+        userInfo.setUsername(userInfo.getUsername().trim());
+        userInfo.setPassword(userInfo.getPassword().trim());
         userInfo.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
         userInfo.setPassword(bCryptPasswordEncoder.encode(userInfo.getPassword()));
         userRepository.save(userInfo);
