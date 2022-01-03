@@ -1,5 +1,6 @@
 package com.example.linksNotepad.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,12 +28,13 @@ public class UserInfo implements UserDetails {
     private String password;
 
     transient private String passwordConfirm;
+    @JsonIgnore
     @OneToMany(mappedBy = "userInfo")
     private Set<Link> linkSet;
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "userInfo")
     private Set<LinkGroups> linkGroupsSet;
-
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 

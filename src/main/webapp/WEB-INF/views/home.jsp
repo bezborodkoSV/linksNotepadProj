@@ -15,6 +15,8 @@
 </head>
 <body>
 <h4><a href="/logout">Logout</a></h4>
+<h4><a href="/exchange">Exchange</a></h4>
+
 
 <%--<form method="post" action="saveLink">--%>
 

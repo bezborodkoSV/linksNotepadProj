@@ -1,5 +1,6 @@
 package com.example.linksNotepad.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,9 +23,11 @@ public class Link {
     private String description;
     @Column
     private String yourNotesAboutLink;
+    @JsonIgnore
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "links_group_id")
+    @PrimaryKeyJoinColumn(name = "link_groups_id")
     private LinkGroups linkGroups;
+    @JsonIgnore
     @ManyToOne
     @PrimaryKeyJoinColumn
     private UserInfo userInfo;
